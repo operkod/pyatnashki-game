@@ -17,8 +17,6 @@ const State = ({ children }) => {
   }
   const [state, dispatch] = React.useReducer(Reducer, initialState)
   const playersRef = firebase.database().ref("player")
-  var mostViewedPosts = firebase.database().ref("player").orderByValue()
-  console.log(mostViewedPosts)
   React.useEffect(() => {
     dispatch({ type: "SET_ITEM" })
     const response = []

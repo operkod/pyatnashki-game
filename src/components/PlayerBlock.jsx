@@ -37,7 +37,7 @@ export default function PlayerBlock({ leadersPlayer }) {
   const [items, setItems] = React.useState([])
   React.useEffect(() => {
     setItems(leadersPlayer.sort((a, b) => a.counter - b.counter))
-  })
+  }, [leadersPlayer])
 
   return (
     <TableContainer component={Paper}>

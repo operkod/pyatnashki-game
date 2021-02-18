@@ -7,7 +7,7 @@ import PlayerBlock from "components/PlayerBlock"
 
 import "./App.css"
 import GameBlock from "./components/GameBlock"
-import { Button, Dialog } from "@material-ui/core"
+import { Dialog } from "@material-ui/core"
 
 function App() {
   const { state, dispatch } = React.useContext(Context)
