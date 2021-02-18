@@ -1,72 +1,53 @@
 import React from "react"
-import classNames from "classnames"
+
+import Context from "context/Context"
+import DialogWindow from "components/DialogWindow"
+import BaseButton from "components/BaseButton"
+import PlayerBlock from "components/PlayerBlock"
 
 import "./App.css"
-
-const initial = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0]
+import GameBlock from "./components/GameBlock"
+import { Button, Dialog } from "@material-ui/core"
 
 function App() {
-  const [items, setItem] = React.useState(initial)
-  const [counter, setCounter] = React.useState(0)
-  const [youWin, setWin] = React.useState(false)
-  const [size, setSize] = React.useState(400)
-
+  const { state, dispatch } = React.useContext(Context)
+  const { items, youWin, counter, leadersPlayer } = state
+  const [openWindow, swtOpenWindow] = React.useState(false)
   const startGame = () => {
-    setItem([...initial].sort(() => Math.random() - 0.5))
-    setCounter(0)
-    setWin(false)
+    dispatch({ type: "RESTART" })
   }
 
-  const onMoveChip = (index) => {
-    if (youWin) return
-    const result = [...items]
-    const indexZero = items.indexOf(0)
-    if (
-      index + 1 === indexZero ||
-      index - 1 === indexZero ||
-      index + 4 === indexZero ||
-      index - 4 === indexZero
-    ) {
-      result[index] = result.splice(indexZero, 1, result[index])[0]
-      setCounter((prev) => prev + 1)
-    }
-    setItem(result)
-    setWin(result.join() === initial.join())
+  const onMoveChip = (payload) => {
+    dispatch({ type: "SET_MOVE", payload })
   }
-
-  const myRef = React.useRef()
-  React.useEffect(() => {
-    setSize(myRef.current.offsetWidth)
-    window.addEventListener("resize", function () {
-      setSize(myRef.current.offsetWidth)
-    })
-    return () => window.removeEventListener("resize")
-  }, [])
-
+  const handleClickOpen = () => {
+    swtOpenWindow(true)
+  }
+  const handleClose = () => {
+    swtOpenWindow(false)
+  }
   return (
     <div className="wrapper">
       <div className="header">
         <div className="header__counter">
           Ходы:<span>{counter}</span>
         </div>
+        <div className="header__player">
+          <BaseButton onClick={handleClickOpen}>leaders</BaseButton>
+        </div>
       </div>
-      <div ref={myRef} className="game" style={{ height: `${size}px` }}>
-        {items.map((item, index) => (
-          <div
-            onClick={onMoveChip.bind(null, index)}
-            key={`${item}_${index}`}
-            className={classNames("game__chip", { "game__chip-active": item === 0 })}
-          >
-            {item}
-          </div>
-        ))}
-      </div>
+      <GameBlock items={items} onMoveChip={onMoveChip} />
       <div className="footer">
-        <button className="button" onClick={startGame}>
-          Restart
-        </button>
+        <BaseButton onClick={startGame}>Restart</BaseButton>
       </div>
-      {youWin && <div className="window">You WIN</div>}
+      <DialogWindow open={youWin} mouseCount={counter} dispatch={dispatch} />
+      <Dialog
+        // selectedValue={selectedValue}
+        open={openWindow}
+        onClose={handleClose}
+      >
+        <PlayerBlock leadersPlayer={leadersPlayer} />
+      </Dialog>
     </div>
   )
 }
