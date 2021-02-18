@@ -33,8 +33,11 @@ const useStyles = makeStyles({
 })
 
 export default function PlayerBlock({ leadersPlayer }) {
-  console.log(leadersPlayer)
   const classes = useStyles()
+  const [items, setItems] = React.useState([])
+  React.useEffect(() => {
+    setItems(leadersPlayer.sort((a, b) => a.counter - b.counter))
+  })
 
   return (
     <TableContainer component={Paper}>
@@ -46,7 +49,7 @@ export default function PlayerBlock({ leadersPlayer }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {leadersPlayer.map((item, i) => (
+          {items.map((item, i) => (
             <StyledTableRow key={`${item.name}_${i}`}>
               <StyledTableCell component="th" scope="row">
                 {item.name}
