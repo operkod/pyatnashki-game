@@ -4,10 +4,10 @@ import Context from "context/Context"
 import DialogWindow from "components/DialogWindow"
 import BaseButton from "components/BaseButton"
 import PlayerBlock from "components/PlayerBlock"
+import GameBlock from "components/GameBlock"
+import { Dialog } from "@material-ui/core"
 
 import "./App.css"
-import GameBlock from "./components/GameBlock"
-import { Dialog } from "@material-ui/core"
 
 function App() {
   const { state, dispatch } = React.useContext(Context)

@@ -1,6 +1,6 @@
 import React from "react"
 import Context from "./Context"
-import Reducer from "./Reducer"
+import { Reducer } from "./Reducer"
 import firebase from "firebase"
 
 const State = ({ children }) => {

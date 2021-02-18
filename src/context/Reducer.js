@@ -2,7 +2,7 @@ const immutable = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0]
 const randomNumber = () => {
   return [...immutable].sort(() => Math.random() - 0.5)
 }
-export default (state, { type, payload }) => {
+export const Reducer = (state, { type, payload }) => {
   switch (type) {
     case "SET_ITEM":
       return { ...state, items: randomNumber() }
